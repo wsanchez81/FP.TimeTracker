@@ -1,0 +1,186 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model FP.TimeTracker.Mvc.Models.EmployeesTimeSheetsViewModel
+@{
+
+}
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.save-employee-timesheet').on('click', function () {
+                var parent = $(this).closest('.employee-timesheet-container');
+                saveEmployeeTimeSheet(parent);
+            });
+
+            var msg = '@TempData["Message"]';
+            if (msg.length > 0) {
+                $("#liveAlertPlaceholder").removeClass("alert-danger d-none").addClass('alert-success').find(".message").html(msg)
+            }
+            var errMsg = '@TempData["ErrorMessage"]';
+            if (errMsg.length > 0) {
+                $("#liveAlertPlaceholder").removeClass("alert-success d-none").addClass('alert-danger').find(".message").html(errMsg)
+            }
+            $('#addEmployeeTimeSheet').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var recipient = button.data('empname');
+                var modal = $(this);
+                modal.find('#employee-name').val(recipient)
+            })
+            $('.datepicker').datepicker(
+                {
+                    dateFormat: 'M-dd-yy'
+                }
+            );
+            $('.timepicker').timepicker({
+                timeFormat: 'hh:mm p',
+                dynamic: false,
+                dropdown: false,
+                scrollbar: true
+            });
+        });
+    </script>
+}
+
+<div id="liveAlertPlaceholder" class="alert alert-danger d-none" role="alert">
+    <span class="message"></span>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Period</th>
+            <th scope="col">Clock In</th>
+            <th scope="col">Clock Out</th>
+            <th scope="col" colspan="2"> <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addEmployeeTimeSheet" data-empname=''>New</button></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var employeeTS in Model.EmployeeTimesSheets)
+        {
+            <tr class="employee-timesheet-container">
+                <th><a data-toggle="collapse" href='@("#multiCollapseExample1" + employeeTS.EmployeeID)'> @employeeTS.EmployeeName</a> @Html.Hidden("EmployeeID" + employeeTS.EmployeeID, employeeTS.EmployeeID, new { @class = "EmployeeID" })</th>
+                @if (employeeTS.IsActive)
+                {
+                    <td>@Html.TextBox("Period" + employeeTS.EmployeeID, employeeTS.CurrentTimeSheet.DatePeriod.ToString("MMM-dd-yyyy"), new { @class="datepicker"  })</td>
+                    <td> @Html.TextBox("TimeIn" + employeeTS.EmployeeID, employeeTS.CurrentTimeSheet.TimeIn == DateTime.MinValue ? "" : employeeTS.CurrentTimeSheet.TimeIn.ToString("hh:mm tt"), new { @class = "timepicker" })</td>
+                    <td>@Html.TextBox("TimeOut" + employeeTS.EmployeeID, employeeTS.CurrentTimeSheet.TimeOut == DateTime.MinValue ? "" : employeeTS.CurrentTimeSheet.TimeOut.ToString("hh:mm tt"), new { @class = "timepicker" })</td>
+                    <td colspan="2">
+                        <div class="btn-group" role="group" aria-label="Employee Time Sheet">
+                            <button type="button" class="btn btn-primary save-employee-timesheet">Save</button>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addEmployeeTimeSheet" data-empname='@employeeTS.EmployeeName'>New</button>
+                            @using (Html.BeginForm("DeActivate", "EmployeeTimeTracker", FormMethod.Post))
+                            {
+                                @Html.Hidden("EmployeeID", employeeTS.EmployeeID)
+                                <button type="submit" class="btn btn-primary save-employee-timesheet">DeActivate</button>
+                            }
+                        </div>
+                    </td>
+                }
+                else
+                {
+                    <td colspan="3"></td>
+                    <td colspan="2">
+                        <div class="btn-group" role="group" aria-label="Employee Time Sheet">
+                            @using (Html.BeginForm("Activate", "EmployeeTimeTracker", FormMethod.Post))
+                            {
+                                @Html.Hidden("EmployeeID", employeeTS.EmployeeID)
+                                <button type="submit" class="btn btn-primary save-employee-timesheet">Activate</button>
+                            }
+                        </div>
+                    </td>
+                }
+            </tr>
+            <tr class="overflow-hidden"></tr>
+            <tr id='@("multiCollapseExample1" + employeeTS.EmployeeID)' class="collapse">
+                <td colspan="6">
+                    <table class="table table-sm table-bordered  table-freeze-f-col-1 ">
+                        <thead>
+                            <tr><th>Period:</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><th>Time In: </th></tr>
+                            <tr><th>Time Out:</th></tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered table-freeze-f-col ">
+                        <thead>
+                            <tr>
+                                @foreach (var timeSheet in employeeTS.TimeSheets)
+                                {
+                                    <th id='@string.Format("DatePeriod_{0}_{1}", employeeTS.EmployeeID, timeSheet.DatePeriod)'>  @timeSheet.DatePeriod.ToString("MMM-dd") </th>
+
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                @foreach (var timeSheet in employeeTS.TimeSheets)
+                                {
+                                    <td> @Html.TextBox(string.Format("TimeIn_{0}_{1}", employeeTS.EmployeeID, timeSheet.DatePeriod), timeSheet.TimeIn.ToString("hh:mm tt"))</td>
+                                }
+                            </tr>
+                            <tr>
+                                @foreach (var timeSheet in employeeTS.TimeSheets)
+                                {
+                                    <td> @Html.TextBox(string.Format("TimeOut_{0}_{1}", employeeTS.EmployeeID, timeSheet.DatePeriod), timeSheet.TimeOut.ToString("hh:mm tt"))</td>
+
+                                }
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </td>
+
+            </tr>
+
+
+
+        }
+    </tbody>
+</table>
+<div>
+    <div class="modal fade" id="addEmployeeTimeSheet" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add or Update TimeSheet</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                @using (Html.BeginForm("SaveTimeSheet", "EmployeeTimeTracker", FormMethod.Post))
+                {
+                    <div class="modal-body">
+
+
+                        <div class="form-group">
+                            <label for="recipient-name" class="col-form-label">Employee Name:</label>
+                            <input type="text" class="form-control" id="employee-name" name="EmployeeName" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label for="date-period" class="col-form-label ">Date Period:</label>
+                            <input type="text" class="form-control datepicker" id="date-period" name="DatePeriod" autocomplete="off">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="time-in" class="col-form-label ">Time In:</label>
+                            <input type="text" class="form-control timepicker" id="time-in" name="TimeIn" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label for="time-out" class="col-form-label ">Time Out:</label>
+                            <input type="text" class="form-control timepicker" id="time-out" name="TimeOut" autocomplete="off">
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary " data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                }
+            </div>
+
+        </div>
+    </div>
+</div>
