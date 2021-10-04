@@ -1,0 +1,12 @@
+D:\NET\Practice\TimeTracker\FP.TimeTracker\FP.TimeTracker.Dto\bin\Debug\net5.0\FP.TimeTracker.Dto.deps.json
+D:\NET\Practice\TimeTracker\FP.TimeTracker\FP.TimeTracker.Dto\bin\Debug\net5.0\FP.TimeTracker.Dto.dll
+D:\NET\Practice\TimeTracker\FP.TimeTracker\FP.TimeTracker.Dto\bin\Debug\net5.0\ref\FP.TimeTracker.Dto.dll
+D:\NET\Practice\TimeTracker\FP.TimeTracker\FP.TimeTracker.Dto\bin\Debug\net5.0\FP.TimeTracker.Dto.pdb
+D:\NET\Practice\TimeTracker\FP.TimeTracker\FP.TimeTracker.Dto\obj\Debug\net5.0\FP.TimeTracker.Dto.csproj.AssemblyReference.cache
+D:\NET\Practice\TimeTracker\FP.TimeTracker\FP.TimeTracker.Dto\obj\Debug\net5.0\FP.TimeTracker.Dto.GeneratedMSBuildEditorConfig.editorconfig
+D:\NET\Practice\TimeTracker\FP.TimeTracker\FP.TimeTracker.Dto\obj\Debug\net5.0\FP.TimeTracker.Dto.AssemblyInfoInputs.cache
+D:\NET\Practice\TimeTracker\FP.TimeTracker\FP.TimeTracker.Dto\obj\Debug\net5.0\FP.TimeTracker.Dto.AssemblyInfo.cs
+D:\NET\Practice\TimeTracker\FP.TimeTracker\FP.TimeTracker.Dto\obj\Debug\net5.0\FP.TimeTracker.Dto.csproj.CoreCompileInputs.cache
+D:\NET\Practice\TimeTracker\FP.TimeTracker\FP.TimeTracker.Dto\obj\Debug\net5.0\FP.TimeTracker.Dto.dll
+D:\NET\Practice\TimeTracker\FP.TimeTracker\FP.TimeTracker.Dto\obj\Debug\net5.0\ref\FP.TimeTracker.Dto.dll
+D:\NET\Practice\TimeTracker\FP.TimeTracker\FP.TimeTracker.Dto\obj\Debug\net5.0\FP.TimeTracker.Dto.pdb

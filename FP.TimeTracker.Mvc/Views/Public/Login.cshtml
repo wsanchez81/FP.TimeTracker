@@ -1,0 +1,17 @@
+﻿
+<!------ Include the above in your HEAD tag ---------->
+
+
+<div id="formContent" class="container">
+
+    <!-- Login Form -->
+    @using (Html.BeginForm("Login", "Public", FormMethod.Post))
+    {
+        <label for="username"><b>Username</b></label>
+        <input type="text" placeholder="Enter Username" name="username" required>
+        <label for="password"><b>Password</b></label>
+        <input type="password" placeholder="Enter Password" name="password" required>
+        <button type="submit">Login</button>
+    }
+
+</div>

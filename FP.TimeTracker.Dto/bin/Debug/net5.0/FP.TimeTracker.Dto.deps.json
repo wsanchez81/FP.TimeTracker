@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v5.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v5.0": {
+      "FP.TimeTracker.Dto/1.0.0": {
+        "runtime": {
+          "FP.TimeTracker.Dto.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "FP.TimeTracker.Dto/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
